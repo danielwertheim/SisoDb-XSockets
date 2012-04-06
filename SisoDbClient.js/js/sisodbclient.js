@@ -99,24 +99,9 @@ SisoDbClient = (function() {
   };
 
   SisoDbClient.prototype.query = function(structureName, predicate) {
-    var k, parsedQuery, query, v;
-    this.logger.write('querying');
-    query = {};
-    predicate(query);
-    parsedQuery = {
-      Where: []
-    };
-    for (k in query) {
-      v = query[k];
-      parsedQuery.Where.push({
-        Path: k,
-        Value: v
-      });
-    }
-    this.logger.write(parsedQuery);
     return this._trigger('Query', {
       StructureName: structureName,
-      Json: JSON.stringify(parsedQuery)
+      Predicate: predicate
     });
   };
 
