@@ -44,13 +44,6 @@ class SisoDbClient
   onGetById: (handler) ->
     @_bind 'OnGetById', handler
   query: (structureName, predicate) ->
-    @logger.write 'querying'
-    query = {}
-    predicate query
-    parsedQuery = Where:[]
-    for k,v of query
-      parsedQuery.Where.push {Path: k, Value: v}
-    @logger.write parsedQuery
-    @_trigger 'Query', StructureName: structureName, Json: JSON.stringify parsedQuery
+    @_trigger 'Query', StructureName: structureName, Predicate: predicate
   onQuery: (handler) ->
     @_bind 'OnQuery', handler
