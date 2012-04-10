@@ -76,6 +76,17 @@ SisoDbClient = (function() {
     return this._bind('OnInserted', handler);
   };
 
+  SisoDbClient.prototype.update = function(structureName, structure) {
+    return this._trigger('Update', {
+      StructureName: structureName,
+      Json: JSON.stringify(structure)
+    });
+  };
+
+  SisoDbClient.prototype.onUpdated = function(handler) {
+    return this._bind('OnUpdated', handler);
+  };
+
   SisoDbClient.prototype.deleteById = function(structureName, id) {
     return this._trigger('DeleteById', {
       StructureName: structureName,

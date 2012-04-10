@@ -1,0 +1,199 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Demo - SisoDb-XSockets</title>
+    <script src="Scripts/jquery-1.7.1.min.js" type="text/javascript"></script>
+    <script src="Scripts/JXSockets-1.0.4.beta.js" type="text/javascript"></script>
+    <script src="http://cloud.github.com/downloads/danielwertheim/SisoDb-XSockets/sisodbclient-debug-v0.3.0.js" type="text/javascript"></script>
+        
+    <script type="text/javascript">
+        var my = {};
+
+        $(function () {
+            //Hook up client
+            my.client = new SisoDbClient("ws://127.0.0.1:4502/SisoDbHandler");
+            my.client.logger.enabled = true;
+            my.client.connect();
+
+            //Hookup UI to consume client
+            $("#ping button").on("click", function () {
+                my.client.ping($("#ping_message").val());
+            });
+
+            $(".inputs #article_insert .insert").on("click", function () {
+                my.client.insert("Article", {
+                    Name: $("#article_insert_name").val(),
+                    PLU: $("#article_insert_plu").val(),
+                    Price: $("#article_insert_price").val()
+                });
+            });
+
+            $(".inputs #article_getById .get").on("click", function () {
+                my.client.getById("Article", $("#article_getById_id").val());
+            });
+
+            $(".inputs #article_update .load").on("click", function () {
+                my.client.getById("Article", $("#article_update_id").val());
+            });
+
+            $(".inputs #article_update .update").on("click", function () {
+                my.client.update("Article", {
+                    ArticleId: $("#article_update_id").val(),
+                    Name: $("#article_update_name").val(),
+                    PLU: $("#article_update_plu").val(),
+                    Price: $("#article_update_price").val()
+                });
+            });
+
+            $(".inputs #article_query .query").on("click", function () {
+                my.client.query("Article", $("#article_query_predicate").val());
+            });
+
+            $(".inputs #article_deleteById .delete").on("click", function () {
+                my.client.deleteById("Article", $("#article_deleteById_id").val());
+            });
+
+            //Hookup listeners
+            my.client.onPinged(function (data) {
+                my.dumpResult("onPinged", data.Message);
+            });
+
+            my.client.onInserted(function (data) {
+                my.dumpResult("onInserted", data.Json);
+            });
+
+            my.client.onGetById(function (data) {
+                if ($("#article_update_id").val()) {
+                    var doc = JSON.parse(data.Json);
+                    $("#article_update_name").val(doc.Name);
+                    $("#article_update_plu").val(doc.PLU);
+                    $("#article_update_price").val(doc.Price);
+                }
+                else
+                    my.dumpResult("onGetById", data.Json);
+            });
+
+            my.client.onUpdated(function (data) {
+                my.dumpResult("onUpdated", data.Id.toString());
+            });
+
+            my.client.onQuery(function (data) {
+                $.each(data.Json, function (i, e) {
+                    my.dumpResult("onQuery", e);
+                });
+            });
+
+            my.client.onDeletedById(function (data) {
+                my.dumpResult("onDeletedById", data.Id.toString());
+            });
+
+            //Some helpers
+            my.dumpResult = function (action, result) {
+                $("<li>").addClass(action).text(result).appendTo(".outputs ul:eq(1)");
+            };
+        });
+    </script>
+    <link href="Content/Site.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <section class="inputs">
+        <fieldset id="ping">
+            <legend>Ping</legend>
+            <label for="ping_message">Message</label>
+            <input type="text" id="ping_message" placeholder="Message" />
+            <button>Ping</button>
+        </fieldset>
+    
+        <fieldset id="article_insert">
+            <legend>Insert</legend>
+            <div class="form-item">
+                <label for="article_insert_name">Name</label>
+                <input type="text" id="article_insert_name" placeholder="Name" />
+            </div>
+            <div class="form-item">
+                <label for="article_insert_plu">PLU</label>
+                <input type="text" id="article_insert_plu" placeholder="PLU" />
+            </div>
+            <div class="form-item">
+                <label for="article_insert_price">Price</label>
+                <input type="text" id="article_insert_price" placeholder="Price" />
+            </div>
+            <div class="form-actions">
+                <button class="insert">Insert</button>
+            </div>
+        </fieldset>
+        
+        <fieldset id="article_getById">
+            <legend>Get by Id</legend>
+            <div class="form-item">
+                <label for="article_getById_id">Id</label>
+                <input id="article_getById_id" type="text" placeholder="id"/>
+            </div>
+            <div class="form-actions">
+                <button class="get">Get</button>
+            </div>
+        </fieldset>
+        
+        <fieldset id="article_update">
+            <legend>Update - Load</legend>
+            <div class="form-item">
+                <label for="article_update_id">Id</label>
+                <input id="article_update_id" type="text" placeholder="id"/>
+            </div>
+            <div class="form-actions">
+                <button class="load">Load</button>
+            </div>
+
+            <legend>Update - Save</legend>
+            <div class="form-item">
+                <label for="article_update_name">Name</label>
+                <input type="text" id="article_update_name" placeholder="Name" />
+            </div>
+            <div class="form-item">
+                <label for="article_update_plu">PLU</label>
+                <input type="text" id="article_update_plu" placeholder="PLU" />
+            </div>
+            <div class="form-item">
+                <label for="article_update_price">Price</label>
+                <input type="text" id="article_update_price" placeholder="Price" />
+            </div>
+            <div class="form-actions">
+                <button class="update">Update</button>
+            </div>
+        </fieldset>
+        
+        <fieldset id="article_query">
+            <legend>Query</legend>
+            <div class="form-item">
+                <label for="article_query_predicate">Predicate</label>
+                <input id="article_query_predicate" type="text" placeholder="predicate"/>
+            </div>
+            <div class="form-actions">
+                <button class="query">Query</button>
+            </div>
+        </fieldset>
+        
+        <fieldset id="article_deleteById">
+            <legend>Delete by Id</legend>
+            <div class="form-item">
+                <label for="article_deleteById_id">Id</label>
+                <input id="article_deleteById_id" type="text" placeholder="id"/>
+            </div>
+            <div class="form-actions">
+                <button class="delete">Delete</button>
+            </div>
+        </fieldset>
+    </section>
+    <section class="outputs">
+        <ul>
+            <li class="onPinged description">Ping result</li>
+            <li class="onInserted description">Insert result</li>
+            <li class="onDeletedById description">Delete by id result</li>
+            <li class="onGetById description">Get by id result</li>
+            <li class="onQuery description">Query result</li>
+            <li class="onUpdated description">Update result</li>
+        </ul>
+        <ul></ul>
+    </section>
+</body>
+</html>
