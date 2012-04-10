@@ -44,6 +44,7 @@ namespace XSocketHandler
 
             var result = new InsertResult
             {
+                StructureName = command.StructureName,
                 Json = _db.UseOnceTo().InsertJson(structureType, command.Json)
             };
 
@@ -60,7 +61,12 @@ namespace XSocketHandler
 
             _db.UseOnceTo().DeleteById(structureType, id);
 
-            var result = new DeleteByIdResult { Id = command.Id };
+            var result = new DeleteByIdResult
+            {
+                StructureName = command.StructureName,
+                Id = command.Id
+            };
+
             this.AsyncSend(result, "OnDeletedById");
         }
 
@@ -73,10 +79,30 @@ namespace XSocketHandler
             var id = ConvertId(command.Id, structureSchema);
             var result = new GetByIdResult
             {
+                StructureName = command.StructureName,
+                Id = command.Id,
                 Json = _db.UseOnceTo().GetByIdAsJson(structureType, id)
             };
 
             this.AsyncSend(result, "OnGetById");
+        }
+
+        [HandlerEvent("Update")]
+        public void Update(UpdateCommand command)
+        {
+            var structureType = Runtime.Resources.StructureTypeResolver(command.StructureName);
+            var structure = _db.Serializer.Deserialize(structureType, command.Json);
+            var structureSchema = GetStructureSchema(structureType);
+
+            _db.UseOnceTo().Update(structureType, structure);
+            
+            var result = new UpdateResult
+            {
+                StructureName = command.StructureName,
+                Id = structureSchema.IdAccessor.GetValue(structure).Value.ToString()
+            };
+
+            this.AsyncSend(result, "OnUpdated");
         }
 
         [HandlerEvent("Query")]
@@ -84,7 +110,11 @@ namespace XSocketHandler
         {
             var structureType = Runtime.Resources.StructureTypeResolver(command.StructureName);
             
-            var result = new QueryResult();
+            var result = new QueryResult
+            {
+                StructureName = command.StructureName
+            };
+
             using (var session = _db.BeginSession())
             {
                 result.Json = session.Query(structureType).Where(command.Predicate).ToArrayOfJson();

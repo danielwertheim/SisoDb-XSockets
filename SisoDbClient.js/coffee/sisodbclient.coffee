@@ -35,6 +35,10 @@ class SisoDbClient
     @_trigger 'Insert', StructureName: structureName, Json: JSON.stringify structure
   onInserted: (handler) ->
     @_bind 'OnInserted', handler
+  update: (structureName, structure) ->
+    @_trigger 'Update', StructureName: structureName, Json: JSON.stringify structure
+  onUpdated: (handler) ->
+    @_bind 'OnUpdated', handler
   deleteById: (structureName, id) ->
     @_trigger 'DeleteById', StructureName: structureName, Id: id
   onDeletedById: (handler) ->

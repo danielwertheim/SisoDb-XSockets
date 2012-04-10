@@ -12,8 +12,9 @@ button, input { padding: 2px;}
 .outputs ul {list-style-type: none; }
 .outputs ul:first-child { height: 60px; margin-top: 12px;}
 .outputs ul:first-child li { width: 60px; height: 50px; padding: 2px; text-align: center; float: left;}
-.outputs .onPinged { background-color: #FFFFB7; }
+.outputs .onPinged { background-color: #ffffb7; }
 .outputs .onQuery { background-color: #FFFF00;}
-.outputs .onInserted { background-color: #90EE90;}
-.outputs .onDeletedById { background-color: #F08080; }
-.outputs .onGetById{ background-color: #FFA500;}
+.outputs .onInserted { background-color: #90ee90;}
+.outputs .onDeletedById { background-color: #f08080; }
+.outputs .onGetById{ background-color: #ffa500;}
+.outputs .onUpdated{ background-color: #ffd68b;}
