@@ -31,30 +31,63 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EnsureThat">
+      <HintPath>..\..\packages\Ensure.That.0.7.0\lib\net40\EnsureThat.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.CSharp">
+      <HintPath>..\..\packages\SisoDb.Dynamic.11.3.0\lib\net40\Mono.CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="NCore">
+      <HintPath>..\..\packages\NCore.0.28.0\lib\net40\NCore.dll</HintPath>
+    </Reference>
+    <Reference Include="PineCone">
+      <HintPath>..\..\packages\PineCone.1.0.0\lib\net40\PineCone.dll</HintPath>
+    </Reference>
+    <Reference Include="SisoDb">
+      <HintPath>..\..\packages\SisoDb.11.3.0\lib\net40\SisoDb.dll</HintPath>
+    </Reference>
+    <Reference Include="SisoDb.Dynamic">
+      <HintPath>..\..\packages\SisoDb.Dynamic.11.3.0\lib\net40\SisoDb.Dynamic.dll</HintPath>
+    </Reference>
+    <Reference Include="SisoDb.Serialization">
+      <HintPath>..\..\packages\SisoDb.11.3.0\lib\net40\SisoDb.Serialization.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Componentmodel.Composition" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="XSockets.Core">
-      <HintPath>..\packages\XSockets.External.1.0.5\lib\net40\XSockets.Core.dll</HintPath>
+    <Reference Include="XSockets.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=817af54c2b870b8e, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\XSockets.External.1.0.5\lib\net40\XSockets.Core.dll</HintPath>
     </Reference>
-    <Reference Include="XSockets.External">
-      <HintPath>..\packages\XSockets.External.1.0.5\lib\net40\XSockets.External.dll</HintPath>
+    <Reference Include="XSockets.External, Version=1.0.0.0, Culture=neutral, PublicKeyToken=817af54c2b870b8e, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\XSockets.External.1.0.5\lib\net40\XSockets.External.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\ICommand.cs" />
+    <Compile Include="Commands\DeleteByIdCommand.cs" />
+    <Compile Include="Commands\GetByIdCommand.cs" />
+    <Compile Include="Commands\InsertCommand.cs" />
     <Compile Include="Commands\PingCommand.cs" />
+    <Compile Include="Commands\QueryCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Results\IResult.cs" />
+    <Compile Include="Results\DeleteByIdResult.cs" />
+    <Compile Include="Results\GetByIdResult.cs" />
+    <Compile Include="Results\InsertResult.cs" />
     <Compile Include="Results\PingResult.cs" />
+    <Compile Include="Results\QueryResult.cs" />
     <Compile Include="SisoDbHandler.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj">
+      <Project>{2846EC97-B87F-4C5E-B9CC-717BBA02473D}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetDir)$(TargetName).dll", "$(SolutionDir)XSockets\Plugins\"

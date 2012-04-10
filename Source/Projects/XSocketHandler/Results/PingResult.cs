@@ -1,6 +1,6 @@
 namespace XSocketHandler.Results
 {
-    public class PingResult : IResult
+    public class PingResult
     {
         public string Message { get; set; }
     }

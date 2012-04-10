@@ -1,4 +1,5 @@
 ﻿using System;
+using Core;
 
 namespace Server
 {
@@ -6,6 +7,8 @@ namespace Server
     {
         static void Main(string[] args)
         {
+            Runtime.Resources = new Resources();
+
             try
             {
                 new Start();
@@ -18,6 +21,5 @@ namespace Server
                 Console.ReadLine();
             }
         }
-
     }
 }
