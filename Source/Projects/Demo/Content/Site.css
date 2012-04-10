@@ -1,0 +1,19 @@
+* { margin: 0;padding: 0;}
+body { font-family: "Trebuchet MS", Verdana, Helvetica, Sans-Serif; font-size: 0.85em; padding: 5px;}
+header, footer, nav, section { display: block; }
+fieldset { padding: 5px; margin: 5px 0 5px 0}
+legend { font-weight: bold; }
+label { display: block;}
+button, input { padding: 2px;}
+.form-actions button { float: right;}
+.form-item { margin-top: 8px;}
+.inputs, .outputs { float: left; width: 49%; }
+.outputs { margin-left: 5px;}
+.outputs ul {list-style-type: none; }
+.outputs ul:first-child { height: 60px; margin-top: 12px;}
+.outputs ul:first-child li { width: 60px; height: 50px; padding: 2px; text-align: center; float: left;}
+.outputs .onPinged { background-color: #FFFFB7; }
+.outputs .onQuery { background-color: #FFFF00;}
+.outputs .onInserted { background-color: #90EE90;}
+.outputs .onDeletedById { background-color: #F08080; }
+.outputs .onGetById{ background-color: #FFA500;}
