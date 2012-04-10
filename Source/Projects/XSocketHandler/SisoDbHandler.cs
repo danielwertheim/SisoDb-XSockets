@@ -40,7 +40,9 @@ namespace XSocketHandler
         [HandlerEvent("Insert")]
         public void Insert(InsertCommand command)
         {
-            var structureType = Runtime.Resources.StructureTypeResolver(command.StructureName);
+            var structureType = Runtime
+                .Resources
+                .StructureTypeResolver(command.StructureName);
 
             var result = new InsertResult
             {
@@ -54,7 +56,9 @@ namespace XSocketHandler
         [HandlerEvent("DeleteById")]
         public void DeleteById(DeleteByIdCommand command)
         {
-            var structureType = Runtime.Resources.StructureTypeResolver(command.StructureName);
+            var structureType = Runtime
+                .Resources
+                .StructureTypeResolver(command.StructureName);
             var structureSchema = GetStructureSchema(structureType);
 
             var id = ConvertId(command.Id, structureSchema);
@@ -73,7 +77,9 @@ namespace XSocketHandler
         [HandlerEvent("GetById")]
         public void GetById(GetByIdCommand command)
         {
-            var structureType = Runtime.Resources.StructureTypeResolver(command.StructureName);
+            var structureType = Runtime
+                .Resources
+                .StructureTypeResolver(command.StructureName);
             var structureSchema = GetStructureSchema(structureType);
 
             var id = ConvertId(command.Id, structureSchema);
@@ -90,7 +96,9 @@ namespace XSocketHandler
         [HandlerEvent("Update")]
         public void Update(UpdateCommand command)
         {
-            var structureType = Runtime.Resources.StructureTypeResolver(command.StructureName);
+            var structureType = Runtime
+                .Resources
+                .StructureTypeResolver(command.StructureName);
             var structure = _db.Serializer.Deserialize(structureType, command.Json);
             var structureSchema = GetStructureSchema(structureType);
 
@@ -108,7 +116,9 @@ namespace XSocketHandler
         [HandlerEvent("Query")]
         public void Query(QueryCommand command)
         {
-            var structureType = Runtime.Resources.StructureTypeResolver(command.StructureName);
+            var structureType = Runtime
+                .Resources
+                .StructureTypeResolver(command.StructureName);
             
             var result = new QueryResult
             {

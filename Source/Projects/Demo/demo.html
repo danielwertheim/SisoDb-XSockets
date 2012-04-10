@@ -32,10 +32,6 @@
                 my.client.getById("Article", $("#article_getById_id").val());
             });
 
-            $(".inputs #article_deleteById .delete").on("click", function () {
-                my.client.deleteById("Article", $("#article_deleteById_id").val());
-            });
-
             $(".inputs #article_update .load").on("click", function () {
                 my.client.getById("Article", $("#article_update_id").val());
             });
@@ -51,6 +47,10 @@
 
             $(".inputs #article_query .query").on("click", function () {
                 my.client.query("Article", $("#article_query_predicate").val());
+            });
+
+            $(".inputs #article_deleteById .delete").on("click", function () {
+                my.client.deleteById("Article", $("#article_deleteById_id").val());
             });
 
             //Hookup listeners
@@ -77,14 +77,14 @@
                 my.dumpResult("onUpdated", data.Id.toString());
             });
 
-            my.client.onDeletedById(function (data) {
-                my.dumpResult("onDeletedById", data.Id.toString());
-            });
-
             my.client.onQuery(function (data) {
                 $.each(data.Json, function (i, e) {
                     my.dumpResult("onQuery", e);
                 });
+            });
+
+            my.client.onDeletedById(function (data) {
+                my.dumpResult("onDeletedById", data.Id.toString());
             });
 
             //Some helpers
@@ -134,17 +134,6 @@
             </div>
         </fieldset>
         
-        <fieldset id="article_deleteById">
-            <legend>Delete by Id</legend>
-            <div class="form-item">
-                <label for="article_deleteById_id">Id</label>
-                <input id="article_deleteById_id" type="text" placeholder="id"/>
-            </div>
-            <div class="form-actions">
-                <button class="delete">Delete</button>
-            </div>
-        </fieldset>
-        
         <fieldset id="article_update">
             <legend>Update - Load</legend>
             <div class="form-item">
@@ -154,6 +143,7 @@
             <div class="form-actions">
                 <button class="load">Load</button>
             </div>
+
             <legend>Update - Save</legend>
             <div class="form-item">
                 <label for="article_update_name">Name</label>
@@ -182,6 +172,17 @@
                 <button class="query">Query</button>
             </div>
         </fieldset>
+        
+        <fieldset id="article_deleteById">
+            <legend>Delete by Id</legend>
+            <div class="form-item">
+                <label for="article_deleteById_id">Id</label>
+                <input id="article_deleteById_id" type="text" placeholder="id"/>
+            </div>
+            <div class="form-actions">
+                <button class="delete">Delete</button>
+            </div>
+        </fieldset>
     </section>
     <section class="outputs">
         <ul>
@@ -189,8 +190,8 @@
             <li class="onInserted description">Insert result</li>
             <li class="onDeletedById description">Delete by id result</li>
             <li class="onGetById description">Get by id result</li>
-            <li class="onUpdated description">Update result</li>
             <li class="onQuery description">Query result</li>
+            <li class="onUpdated description">Update result</li>
         </ul>
         <ul></ul>
     </section>
